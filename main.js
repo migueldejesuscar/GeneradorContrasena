@@ -18,23 +18,40 @@ function generarContrasena(){
         return;
     }
 
-    if (numeroDigitado<6) {  
+    if (numeroDigitado<8) {  
         // ponemos el focus en el campo que hizo falta los datos 
         document.getElementById('cantidad').focus()  
-        alert("La cantidad de caracteres debe ser mayor a 5");
+        alert("La cantidad de caracteres debe ser mayor a 7");
         return;
     }  
    
     let password='';
+    let vNumero = false;
+    let vMayuscula = false;
+    let vEspecial=false;
+    const vcaracteresEspeciales = "!@#$%^&*()";
   
     for(let i =0; i<numeroDigitado;i++){
         //toma un valor aleatorio dentro de la cadena de carcateres  
         let carcaterAleatorio =cadenaCaracteres[Math.floor(Math.random() * cadenaCaracteres.length)];       
-        password+=carcaterAleatorio; 
-                      
+        
+        if (/\d/.test(carcaterAleatorio)) vNumero = true;
+        if (/[A-Z]/.test(carcaterAleatorio)) vMayuscula = true;
+        if (vcaracteresEspeciales.includes(carcaterAleatorio))vEspecial = true;
+        password += carcaterAleatorio;                       
     }
+    // Asignamos el valor de la contraseña a la caja de texto antes de la alerta
+    contrasena.value = password; 
+
+    // verificamos si la contrseña es debíl o fuerte
+    if (!vNumero || !vMayuscula || !vEspecial) {        
+        alert("Contraseña débil: debe contener al menos un número, una letra mayúscula y un carácter especial.");       
+    }else{        
+        alert("¡Contraseña Fuerte!")
+    }
+  
     console.log('Password generada:' +' '+ password); //imprimimos por consola
-    contrasena.value=password; 
+    
     // Habilitamos en pantalla en boton Limpiar   
     botonLimpiar.style.display="block";
     console.log('numero digitado:' + ' '+numeroDigitado)
@@ -52,6 +69,7 @@ function limpiarTextbox(){
     // quitamos de la pantalla el boton Limpiar
     botonLimpiar.style.display="none";   
 }
+
 
 
 
